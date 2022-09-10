@@ -1,5 +1,5 @@
 import express from 'express';
-import {getPosts} from '../Controllers/posts';
+import {getPosts,createPosts} from '../Controllers/posts.js';
 
 const router = express.Router();
 
@@ -8,5 +8,6 @@ const router = express.Router();
 // }))
 
 router.get('/',getPosts);
+router.get('/',createPosts);
 
 export default router;
