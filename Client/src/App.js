@@ -9,7 +9,7 @@ function App() {
               <Typography variant='h2' align='center' >
                   Memories
               </Typography>
-              <img src={memories} alt="memories" height='60'/>
+              <img src={memories} alt="memories" height="100"/>
           </AppBar>
 
           <Grow in>
