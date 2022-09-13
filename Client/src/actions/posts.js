@@ -23,8 +23,22 @@ export const getPosts = () => async (dispatch) => {
         const {data} = await api.fetchPosts();
         dispatch({
             type:'FETCH_ALL',
-            payload:[]
+            payload:data
         })
+    }catch (e) {
+        console.log(e.message);
+    }
+}
+
+export const createPost = () => async (dispatch) => {
+    try {
+
+        const {data} = await api.createPost();
+        dispatch({
+            type:'CREATE',
+            payload:data
+        })
+        
     }catch (e) {
         console.log(e.message);
     }

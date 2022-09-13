@@ -1,4 +1,3 @@
-import './App.css';
 import memories from './images/memories.png'
 import Posts from './Components/Posts/Posts';
 import Form from './Components/Form/Form';
