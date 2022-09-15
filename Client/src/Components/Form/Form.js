@@ -2,9 +2,12 @@ import React, {useState} from 'react';
 import {Button, Paper, TextField, Typography} from '@mui/material';
 import useStyles from './Styles';
 import FileBase from 'react-file-base64';
+import {useDispatch} from 'react-redux';
+import {createPost} from '../../actions/posts';
 
 const Form = () => {
     const classes = useStyles();
+    const dispatch  =  useDispatch();
     const [postData , setPostData] = useState({
         creator:'',
         title:'',
@@ -13,20 +16,19 @@ const Form = () => {
         selectedFile:''
     })
     const handleChange = (evt) => {
-        console.log("Event ==>",evt);
         const value = evt.target.value;
         setPostData({
             ...postData,
             [evt.target.name]: value
         });
-        console.log('postData',postData);
     }
 
-    const handleSubmit = () => {
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(createPost(postData))
     }
     return(
-        <Paper className={classes.paper}>
+        <Paper sx={{m:6 ,p:3}}>
             <form
                 autoComplete='off'
                 noValidate

@@ -3,11 +3,6 @@ import PostMessage from '../Models/postMessage.js';
 export const getPosts = async (req,res) => {
     try{
         const postMessages = await postMessage.find();
-        res.setHeader("Access-Control-Allow-Origin", "*")
-        res.setHeader("Access-Control-Allow-Credentials", "true");
-        res.setHeader("Access-Control-Max-Age", "1800");
-        res.setHeader("Access-Control-Allow-Headers", "content-type");
-        res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS")
         res.status(200).json(postMessages);
     }catch (e) {
         res.status(503).json({message:e.message})
@@ -15,11 +10,16 @@ export const getPosts = async (req,res) => {
 }
 
 export const createPosts = async (req,res) => {
-    const posts = req.body;
-    let newPost = new PostMessage(posts);
+    console.log(req);
+    const { title, message, selectedFile, creator, tags } = req.body;
+
+    const newPostMessage = new PostMessage({ title, message, selectedFile, creator, tags })
+
     try {
-        await newPost.save();
+        await newPostMessage.save();
+        res.setHeader("Access-Control-Allow-Origin", "*")
+        res.status(201).json(newPostMessage );
     }catch (e) {
-        
+        res.status(409).json({ message: error.message });
     }
 }
