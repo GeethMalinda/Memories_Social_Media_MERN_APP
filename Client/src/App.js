@@ -15,11 +15,11 @@ function App() {
     },[dispatch])
 
   return (
-      <Container maxWidth='lg'>
+      <Container maxWidth='lg' style={{padding:'unset',margin:'auto'}}>
           <AppBar className={classes.appBar} position="static" color='inherit'>
               <Toolbar>
                   <Typography className={classes.heading} variant='h2' align='center' >
-                      Memories
+                      Nostalgia
                   </Typography>
                   <img className={classes.image} src={memories} alt="icon" height="60"/>
               </Toolbar>

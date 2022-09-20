@@ -28,7 +28,7 @@ const Form = () => {
         dispatch(createPost(postData))
     }
     return(
-        <Paper sx={{m:6 ,p:3}}>
+        <Paper sx={{m:6 ,p:3 ,mt:'unset'}}>
             <form
                 autoComplete='off'
                 noValidate
