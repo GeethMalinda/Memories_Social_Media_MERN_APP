@@ -1,5 +1,5 @@
 import express from 'express';
-import {getPosts,createPosts} from '../Controllers/posts.js';
+import {getPosts,createPosts,updatePost} from '../Controllers/posts.js';
 
 const router = express.Router();
 
@@ -9,5 +9,7 @@ const router = express.Router();
 
 router.get('/',getPosts);
 router.post('/',createPosts);
+/*use for updating existing documents*/
+router.patch('/:id',updatePost)
 
 export default router;

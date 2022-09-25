@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Paper, TextField, Typography} from '@mui/material';
 import useStyles from './Styles';
 import FileBase from 'react-file-base64';
-import {useDispatch} from 'react-redux';
-import {createPost} from '../../actions/posts';
+import {useDispatch,useSelector} from 'react-redux';
+import {createPost,updatePost} from '../../actions/posts';
 
-const Form = () => {
+const Form = ({currentId,setCurrentId}) => {
     const classes = useStyles();
+    const post = useSelector((state) => currentId ? state.posts.find((p)=>p._id === currentId):null);
     const dispatch  =  useDispatch();
     const [postData , setPostData] = useState({
         creator:'',
@@ -15,6 +16,11 @@ const Form = () => {
         tags:'',
         selectedFile:''
     })
+
+    useEffect(() => {
+        if (post) setPostData(post)
+
+    },[post])
     const handleChange = (evt) => {
         const value = evt.target.value;
         setPostData({
@@ -25,8 +31,19 @@ const Form = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(createPost(postData))
+
+        if (currentId) {
+            dispatch(updatePost(currentId,postData))
+        }else {
+            dispatch(createPost(postData))
+        }
     }
+
+    const clear = () => {
+        setCurrentId(null)
+        setPostData({creator:'', title:'', message:'', tags:'', selectedFile:''})
+    }
+
     return(
         <Paper sx={{m:6 ,p:3 ,mt:'unset'}}>
             <form
@@ -36,7 +53,7 @@ const Form = () => {
                 onSubmit={handleSubmit}
             >
                 <Typography variant= 'h6'>
-                    Creating A Memory
+                    {currentId ? 'Editing':'Creating'} a Memory
                 </Typography>
                 <TextField
                     name='creator'
@@ -89,7 +106,7 @@ const Form = () => {
                     color="secondary"
                     sx={{padding: 1, margin: 1 }}
                     size="large"
-                    onClick={() => console.log('clear')}
+                    onClick={clear}
                     fullWidth>
                     Clear
                 </Button>

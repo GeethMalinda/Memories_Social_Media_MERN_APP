@@ -4,9 +4,10 @@ import Form from './Components/Form/Form';
 import {AppBar, Container, Grid, Grow, Toolbar, Typography} from '@mui/material';
 import useStyles from './styles';
 import {useDispatch} from 'react-redux';
-import {useEffect} from 'react';
+import {useEffect,useState} from 'react';
 import {getPosts} from './actions/posts'
 function App() {
+    const [currentID,setCurrentId] = useState(null);
     const classes = useStyles();
     const dispatch = useDispatch();
 
@@ -30,10 +31,10 @@ function App() {
               <Container>
                   <Grid container justify='space-between' alignContent='stretch' spacing={3}>
                       <Grid item xs={6} >
-                          <Posts/>
+                          <Posts setCurrentId = {setCurrentId}/>
                       </Grid>
                       <Grid item xs={6} >
-                          <Form/>
+                          <Form currentId={currentID} setCurrentId = {setCurrentId}/>
                       </Grid>
                   </Grid>
               </Container>
