@@ -13,7 +13,7 @@ function App() {
 
     useEffect(() =>{
         dispatch(getPosts())
-    },[dispatch])
+    },[dispatch,currentID])
 
   return (
       <Container maxWidth='lg' style={{padding:'unset',margin:'auto'}}>
