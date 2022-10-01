@@ -47,14 +47,12 @@ const Form = ({currentId,setCurrentId}) => {
     }
 
     return(
-        <Paper sx={{m:6 ,p:3 ,mt:'unset'}}>
-            <form
-                autoComplete='off'
-                noValidate
-                className={`${classes.root} ${classes.form}`}
-                onSubmit={handleSubmit}
-            >
-                <Typography variant= 'h6'>
+        <Paper  className={classes.paper}>
+            <form autoComplete="off"
+                  noValidate className={`${classes.root} ${classes.form}`}
+                  onSubmit={handleSubmit}>
+
+            <Typography variant= 'h6'>
                     {currentId ? 'Editing':'Creating'} a Memory
                 </Typography>
                 <TextField
@@ -87,7 +85,9 @@ const Form = ({currentId,setCurrentId}) => {
                     label='Tags'
                     fullWidth
                     value={postData.tags}
-                    onChange={handleChange}
+                    onChange={(e) => {
+                        setPostData({...postData,tags: e.target.value.split(',')})
+                    }}
                 />
                 <div className={classes.fileInput}>
                     <FileBase

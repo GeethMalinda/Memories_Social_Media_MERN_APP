@@ -1,11 +1,11 @@
 import { makeStyles } from '@mui/styles';
-
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
     appBar: {
         borderRadius: 15,
         margin: '30px 0',
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
+        flexWrap: 'wrap',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -14,5 +14,10 @@ export default makeStyles(() => ({
     },
     image: {
         marginLeft: '15px',
+    },
+    [theme.breakpoints.down('sm')]: {
+        mainContainerApp : {
+            flexDirection:'column-reverse !important'
+        }
     },
 }))

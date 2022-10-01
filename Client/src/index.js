@@ -7,13 +7,19 @@ import {Provider} from 'react-redux';
 import {applyMiddleware, createStore,compose} from 'redux';
 import thunk from 'redux-thunk';
 import reducers from './reducers';
+import { createTheme, ThemeProvider} from '@mui/material/styles';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const store = createStore(reducers,compose(applyMiddleware(thunk)))
+const theme = createTheme();
+
+export default theme;
 root.render(
     <Provider store={store}>
         <React.StrictMode>
-            <App/>
+            <ThemeProvider theme={theme}>
+                <App />
+            </ThemeProvider>
         </React.StrictMode>
     </Provider>
 );

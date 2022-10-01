@@ -16,25 +16,21 @@ function App() {
     },[dispatch,currentID])
 
   return (
-      <Container maxWidth='lg' style={{padding:'unset',margin:'auto'}}>
-          <AppBar className={classes.appBar} position="static" color='inherit'>
-              <Toolbar>
-                  <Typography className={classes.heading} variant='h2' align='center' >
-                      Nostalgia
-                  </Typography>
-                  <img className={classes.image} src={memories} alt="icon" height="60"/>
-              </Toolbar>
-
+      <Container maxWidth="lg">
+          <AppBar className={classes.appBar} position="static" color="inherit">
+                  <Toolbar disableGutters>
+                      <Typography className={classes.heading} variant="h2" align="center">Memories</Typography>
+                      <img className={classes.image} src={memories} alt="icon" height="60" />
+                  </Toolbar>
           </AppBar>
-
           <Grow in>
-              <Container>
-                  <Grid container justify='space-between' alignContent='stretch' spacing={3}>
-                      <Grid item xs={6} >
-                          <Posts setCurrentId = {setCurrentId}/>
+              <Container >
+                  <Grid className={classes.mainContainerApp} container justify="space-between" alignItems="stretch" spacing={3}>
+                      <Grid item xs={12} sm={7}>
+                          <Posts setCurrentId={setCurrentId} />
                       </Grid>
-                      <Grid item xs={6} >
-                          <Form currentId={currentID} setCurrentId = {setCurrentId}/>
+                      <Grid item xs={12} sm={4}>
+                          <Form currentId={currentID} setCurrentId={setCurrentId} />
                       </Grid>
                   </Grid>
               </Container>
