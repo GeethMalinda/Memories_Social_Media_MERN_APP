@@ -1,7 +1,9 @@
 import { Container} from '@mui/material';
 import Navbar from './Components/Navbar/NavBar';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './Components/Home/Home';
+import Auth from './Components/Auth/Auth';
+
 
 function App() {
 
@@ -9,10 +11,10 @@ function App() {
       <BrowserRouter>
           <Container maxWidth="lg">
               <Navbar />
-              <Switch>
-                  <Route path="/" exact component={Home} />
-                  <Route path="/auth" exact component={Auth} />
-              </Switch>
+              <Routes>
+                  <Route path="/" exact element={<Home/>} />
+                  <Route path="/auth" exact element={<Auth/>} />
+              </Routes>
           </Container>
       </BrowserRouter>
   );
