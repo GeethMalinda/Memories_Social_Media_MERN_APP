@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {Avatar, Button, Paper, Grid, Typography, Container, TextField} from '@mui/material';
 import useStyles from './styles';
 import {LockOutlined} from '@mui/icons-material';
 import Input from './Input';
+import Icon from './icon';
+import GoogleLogin from 'react-google-login';
+import { gapi } from "gapi-script";
 
 const Auth = () => {
     const classes = useStyles();
@@ -25,6 +28,27 @@ const Auth = () => {
         setIsSignUp(prevState => !prevState)
         setShowPassward(false)
     }
+
+    const googleSuccess = async (res) => {
+        console.log(res);
+    }
+
+    const googleError = async (e) => {
+        // alert('Google Sign In was unsuccessful. Try again later');
+        alert(e);
+        console.log(e);
+    }
+    useEffect(() => {
+        function start() {
+            gapi.client.init({
+                clientId:"356994902427-231lrbdsshvj4gcdh9psj93aql98c20c.apps.googleusercontent.com",
+                scope: '',
+            });
+        }
+
+        gapi.load('client:auth2', start);
+    }, []);
+
     return (
         <Container component="main"  maxWidth="xs">
             <Paper className={classes.paper} elevation={3}>
@@ -72,9 +96,26 @@ const Auth = () => {
                             type="password" /> }
                     </Grid>
                 </form>
+
                 <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                     {isSignUp ? 'Sign Up ':'Sign In '}
                 </Button>
+
+                <GoogleLogin
+                    clientId="356994902427-231lrbdsshvj4gcdh9psj93aql98c20c.apps.googleusercontent.com"
+                    render={(renderProps) => (
+                        <Button className={classes.googleButton} color="primary" fullWidth
+                                onClick={renderProps.onClick}
+                                disabled={renderProps.disabled}
+                                startIcon={<Icon />} variant="contained">
+                            Google Sign In
+                        </Button>
+                    )}
+                    onSuccess={googleSuccess}
+                    onFailure={googleError}
+                    cookiePolicy="single_host_origin"
+                />
+
                 <Grid container justify="flex-end">
                     <Grid item>
                         <Button onClick={switchMode}>
