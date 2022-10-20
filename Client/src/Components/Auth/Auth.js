@@ -6,11 +6,17 @@ import Input from './Input';
 import Icon from './icon';
 import GoogleLogin from 'react-google-login';
 import { gapi } from "gapi-script";
+import {useDispatch} from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import {AUTH} from '../../constants/actiontypes';
 
 const Auth = () => {
     const classes = useStyles();
     const [showPassword , setShowPassward] = useState(false)
     const [isSignUp,setIsSignUp] = useState(false);
+    const  dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const handleSubmit = () => {
 
     }
@@ -31,6 +37,21 @@ const Auth = () => {
 
     const googleSuccess = async (res) => {
         console.log(res);
+        const result = res?.profileObj;
+        const token = res?.tokenId;
+        
+        try {
+            dispatch({
+                type:AUTH,
+                data:{
+                    result,
+                    token
+                }
+            })
+            navigate('/')
+        }catch (e) {
+            console.log(e);
+        }
     }
 
     const googleError = async (e) => {
