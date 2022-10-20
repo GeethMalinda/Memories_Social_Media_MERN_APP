@@ -1,5 +1,5 @@
 import * as api from '../api'
-import {CREATE, DELETE, FETCH_ALL, LIKE, UPDATE} from '../constants/ActionTypes';
+import {CREATE, DELETE, FETCH_ALL, LIKE, UPDATE} from '../constants/actiontypes';
 
 /*
  Action Creators are funtions that returns funtions
