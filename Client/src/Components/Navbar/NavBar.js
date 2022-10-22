@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {AppBar, Avatar, Button, Toolbar, Typography} from '@mui/material';
 import memories from '../../images/memories.png';
 import useStyles from './style';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {LOGOUT} from '../../constants/actiontypes';
 
@@ -11,13 +11,15 @@ const Navbar = () => {
     const classes = useStyles();
     const dispatch= useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
 
 
     const [user,setUser] = useState(JSON.parse(localStorage.getItem('profile')));
-    // useEffect(() => {
-    //     const token = user?.token;
-    //
-    // },[JSON.parse(localStorage.getItem('profile'))])
+    useEffect(() => {
+        const token = user?.token;
+        setUser(JSON.parse(localStorage.getItem('profile')))
+        console.log('location===>',location);
+    },[location])
 
     console.log(user);
     const logout = () => {

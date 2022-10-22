@@ -9,21 +9,36 @@ import { gapi } from "gapi-script";
 import {useDispatch} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {AUTH} from '../../constants/actiontypes';
+import { signIn, signUp } from '../../actions/auth';
 
+const innitialState = {
+    firstName:'',
+    lastName:'',
+    email:'',
+    password:'',
+    confirmPassword:''
+}
 const Auth = () => {
     const classes = useStyles();
     const [showPassword , setShowPassward] = useState(false)
+    const [formData , setFormData] = useState(innitialState)
     const [isSignUp,setIsSignUp] = useState(false);
     const  dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if(isSignUp){
+            dispatch(signUp(formData,navigate))
+        }else {
+            dispatch(signIn(formData,navigate))
+
+        }
+
 
     }
+    const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const handleChange = () => {
-
-    }
 
     const handleShowPassword = () => {
         setShowPassward(prevState => !prevState)
@@ -116,34 +131,36 @@ const Auth = () => {
                             handleChange={handleChange}
                             type="password" /> }
                     </Grid>
+                    <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+                        {isSignUp ? 'Sign Up ':'Sign In '}
+                    </Button>
+
+
+                    <GoogleLogin
+                        clientId="356994902427-231lrbdsshvj4gcdh9psj93aql98c20c.apps.googleusercontent.com"
+                        render={(renderProps) => (
+                            <Button className={classes.googleButton} color="primary" fullWidth
+                                    onClick={renderProps.onClick}
+                                    disabled={renderProps.disabled}
+                                    startIcon={<Icon />} variant="contained">
+                                Google Sign In
+                            </Button>
+                        )}
+                        onSuccess={googleSuccess}
+                        onFailure={googleError}
+                        cookiePolicy="single_host_origin"
+                    />
+
+                    <Grid container justify="flex-end">
+                        <Grid item>
+                            <Button onClick={switchMode}>
+                                {isSignUp ? 'Already have an acount Sign In':"Don' t have an account ? Sign Up"}
+                            </Button>
+                        </Grid>
+                    </Grid>
+
                 </form>
 
-                <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-                    {isSignUp ? 'Sign Up ':'Sign In '}
-                </Button>
-
-                <GoogleLogin
-                    clientId="356994902427-231lrbdsshvj4gcdh9psj93aql98c20c.apps.googleusercontent.com"
-                    render={(renderProps) => (
-                        <Button className={classes.googleButton} color="primary" fullWidth
-                                onClick={renderProps.onClick}
-                                disabled={renderProps.disabled}
-                                startIcon={<Icon />} variant="contained">
-                            Google Sign In
-                        </Button>
-                    )}
-                    onSuccess={googleSuccess}
-                    onFailure={googleError}
-                    cookiePolicy="single_host_origin"
-                />
-
-                <Grid container justify="flex-end">
-                    <Grid item>
-                        <Button onClick={switchMode}>
-                            {isSignUp ? 'Already have an acount Sign In':"Don' t have an account ? Sign Up"}
-                        </Button>
-                    </Grid>
-                </Grid>
             </Paper>
         </Container>
     )
