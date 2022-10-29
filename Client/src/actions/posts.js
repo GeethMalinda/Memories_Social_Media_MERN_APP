@@ -31,7 +31,7 @@ export const getPosts = () => async (dispatch) => {
     }
 }
 
-export const createPost = (post) => async (dispatch) => {
+export const createPost = (post,navigate) => async (dispatch) => {
     console.log("PostData ==>",post);
     try {
 
@@ -42,11 +42,17 @@ export const createPost = (post) => async (dispatch) => {
         })
         
     }catch (e) {
-        console.log(e.message);
+
+        console.log(e.response.status);
+        if (e.response.status === 401) {
+            console.log('if');
+            navigate('/')
+        }
     }
 }
 
 export const updatePost = (id,post) => async (dispatch) => {
+    console.log("update ==>",id);
     try {
         let {data} = await api.updatePost(id,post);
         dispatch({
@@ -54,7 +60,7 @@ export const updatePost = (id,post) => async (dispatch) => {
             payload:data
         })
     }catch (e){
-        console.log(e.message);
+        console.log(e);
     }
 }
 
