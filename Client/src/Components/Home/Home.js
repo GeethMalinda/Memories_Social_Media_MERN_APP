@@ -7,7 +7,7 @@ import {useDispatch} from 'react-redux';
 import {getPosts} from '../../actions/posts';
 
 const Home = () => {
-    const [currentID,setCurrentId] = useState(null);
+    const [currentID,setCurrentId] = useState(0);
     const classes = useStyles();
     const dispatch = useDispatch();
 
