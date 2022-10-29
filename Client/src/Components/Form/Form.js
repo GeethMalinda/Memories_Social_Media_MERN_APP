@@ -4,13 +4,15 @@ import useStyles from './Styles';
 import FileBase from 'react-file-base64';
 import {useDispatch,useSelector} from 'react-redux';
 import {createPost,updatePost} from '../../actions/posts';
+import { useNavigate } from 'react-router-dom';
 
 const Form = ({currentId,setCurrentId}) => {
+    const navigate = useNavigate();
     const classes = useStyles();
     const post = useSelector((state) => currentId ? state.posts.find((p)=>p._id === currentId):null);
     const dispatch  =  useDispatch();
+    const user = JSON.parse(localStorage.getItem('profile'));
     const [postData , setPostData] = useState({
-        creator:'',
         title:'',
         message:'',
         tags:'',
@@ -32,20 +34,31 @@ const Form = ({currentId,setCurrentId}) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (currentId) {
-            dispatch(updatePost(currentId,postData))
+        console.log('current id ==>',currentId);
+        if (currentId === 0) {
+            // dispatch(updatePost(currentId,postData))
+            dispatch(createPost({ ...postData, name: user?.result?.name },navigate));
             clear();
-        }else {
-            dispatch(createPost(postData))
+        } else {
+            dispatch(updatePost(currentId, { ...postData, name: user?.result?.name }));
             clear();
         }
     }
 
     const clear = () => {
-        setCurrentId(null)
-        setPostData({creator:'', title:'', message:'', tags:'', selectedFile:''})
+        setCurrentId(0);
+        setPostData({ title:'', message:'', tags:'', selectedFile:''})
     }
 
+    if (!user?.result?.name){
+        return (
+            <Paper className={classes.paper}>
+                <Typography variant="h6" align="center">
+                    Please Sign In to create your own memories and like other's memories.
+                </Typography>
+            </Paper>
+        )
+    }
     return(
         <Paper  className={classes.paper}>
             <form autoComplete="off"
@@ -55,14 +68,7 @@ const Form = ({currentId,setCurrentId}) => {
             <Typography variant= 'h6'>
                     {currentId ? 'Editing':'Creating'} a Memory
                 </Typography>
-                <TextField
-                    name='creator'
-                    variant='outlined'
-                    label='Creator'
-                    fullWidth
-                    value={postData.creator}
-                    onChange={handleChange}
-                />
+
                 <TextField
                     name='title'
                     variant='outlined'
