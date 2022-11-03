@@ -3,7 +3,7 @@ import Navbar from './Components/Navbar/NavBar';
 import { BrowserRouter, Routes, Route,Navigate } from 'react-router-dom';
 import Home from './Components/Home/Home';
 import Auth from './Components/Auth/Auth';
-
+import PostDetails from './Components/PostDeatails/PostDetails';
 
 function App() {
 
@@ -11,7 +11,7 @@ function App() {
 
     return (
       <BrowserRouter>
-          <Container maxWidth="lg">
+          <Container maxWidth="xl">
               <Navbar />
               <Routes>
                   <Route path="/" exact element={<Navigate to="/posts" replace />}/>
