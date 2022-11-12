@@ -4,10 +4,10 @@ import useStyles from './Styles';
 import FileBase from 'react-file-base64';
 import {useDispatch,useSelector} from 'react-redux';
 import {createPost,updatePost} from '../../actions/posts';
-import { useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const Form = ({currentId,setCurrentId}) => {
-    const navigate = useNavigate();
+    const history = useHistory();
     const classes = useStyles();
     const post = useSelector((state) => currentId ? state.posts.find((p)=>p._id === currentId):null);
     const dispatch  =  useDispatch();
@@ -36,7 +36,7 @@ const Form = ({currentId,setCurrentId}) => {
 
         if (currentId === 0) {
             // dispatch(updatePost(currentId,postData))
-            dispatch(createPost({ ...postData, name: user?.result?.name },navigate));
+            dispatch(createPost({ ...postData, name: user?.result?.name },history));
             clear();
         } else {
             dispatch(updatePost(currentId, { ...postData, name: user?.result?.name }));
