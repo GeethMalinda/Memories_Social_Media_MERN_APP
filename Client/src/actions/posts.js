@@ -1,5 +1,5 @@
 import * as api from '../api'
-import {CREATE, DELETE, FETCH_ALL, LIKE, UPDATE} from '../constants/actiontypes';
+import {CREATE, DELETE, FETCH_ALL, FETCH_BY_SEARCH, LIKE, UPDATE} from '../constants/actiontypes';
 
 /*
  Action Creators are funtions that returns funtions
@@ -31,6 +31,18 @@ export const getPosts = () => async (dispatch) => {
     }
 }
 
+export const getPostBySearch = (searchQuery) => async (dispatch) => {
+
+    try{
+        const {data : {data}} = await api.fetchPostsBySearch(searchQuery);
+        dispatch({
+            type:FETCH_BY_SEARCH,
+            payload:data
+        })
+    }catch (e) {
+        console.log(e);
+    }
+}
 export const createPost = (post,navigate) => async (dispatch) => {
     console.log("PostData ==>",post);
     try {
