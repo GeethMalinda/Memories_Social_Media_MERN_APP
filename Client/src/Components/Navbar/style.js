@@ -23,6 +23,9 @@ export default makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'flex-end',
         width: '400px',
+        [theme.breakpoints.down('sm')]: {
+            display: 'none !important ',
+        },
     },
     profile: {
         display: 'flex',
