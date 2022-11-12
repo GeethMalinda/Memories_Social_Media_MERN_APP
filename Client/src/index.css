@@ -1,4 +1,8 @@
 body {
-  background-image: url('./Leave-10s-1366px.svg');
-  background-attachment: fixed;
+  background-color: #f7f8fc;
+}
+
+* {
+  /* font-family: 'Noto Sans JP' !important; */
+  font-family: 'Heebo', sans-serif !important;
 }
