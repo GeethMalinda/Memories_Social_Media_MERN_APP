@@ -4,9 +4,9 @@ import Form from '../Form/Form';
 import {useEffect, useState} from 'react';
 
 import {useDispatch} from 'react-redux';
-import {getPosts} from '../../actions/posts';
+import {getPostBySearch, getPosts} from '../../actions/posts';
 import Pagination from '../Pagination';
-import {useLocation, useNavigate} from 'react-router-dom';
+import {useLocation, useHistory} from 'react-router-dom';
 import ChipInput from 'material-ui-chip-input';
 import useStyles from './styles';
 
@@ -17,10 +17,10 @@ function useQuery() {
 const Home = () => {
     const [currentID,setCurrentId] = useState(0);
     const [search , setSearch] =  useState('');
-    const [tags , setTags] = useState()
+    const [tags , setTags] = useState([])
     const classes = useStyles();
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const history = useHistory();
     const query = useQuery();
     //read url and see if theare is a parameter called page if dont have the page we must be on the first one
     const page = query.get('page' || 1)
@@ -45,10 +45,12 @@ const Home = () => {
     }
 
     const searchPost = () => {
+        console.log('tags',tags);
         if (search.trim() || tags){
-
+            dispatch(getPostBySearch({search, tags: tags.join(',')}))
+            history.push(`posts/search?searchQuery=${search || 'none'}&tags=${tags.join(',')}`)
         }else {
-            navigate('/')
+            history.push('/')
         }
     }
     return(
@@ -82,7 +84,7 @@ const Home = () => {
                         </AppBar>
                         <Form currentId={currentID} setCurrentId={setCurrentId} />
                         <Paper>
-                            <Pagination/>
+                            <Pagination page={page}/>
                         </Paper>
                     </Grid>
                 </Grid>

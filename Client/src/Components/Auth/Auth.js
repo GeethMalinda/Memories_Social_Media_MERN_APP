@@ -7,7 +7,7 @@ import Icon from './icon';
 import GoogleLogin from 'react-google-login';
 import { gapi } from "gapi-script";
 import {useDispatch} from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import {AUTH} from '../../constants/actiontypes';
 import { signIn, signUp } from '../../actions/auth';
 
@@ -24,14 +24,14 @@ const Auth = () => {
     const [formData , setFormData] = useState(innitialState)
     const [isSignUp,setIsSignUp] = useState(false);
     const  dispatch = useDispatch();
-    const navigate = useNavigate();
+    const history = useHistory();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if(isSignUp){
-            dispatch(signUp(formData,navigate))
+            dispatch(signUp(formData,history))
         }else {
-            dispatch(signIn(formData,navigate))
+            dispatch(signIn(formData,history))
 
         }
 
@@ -63,7 +63,7 @@ const Auth = () => {
                     token
                 }
             })
-            navigate('/')
+            history.push('/')
         }catch (e) {
             console.log(e);
         }
