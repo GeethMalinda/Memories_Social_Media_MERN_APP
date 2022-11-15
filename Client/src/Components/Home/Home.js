@@ -23,12 +23,12 @@ const Home = () => {
     const history = useHistory();
     const query = useQuery();
     //read url and see if theare is a parameter called page if dont have the page we must be on the first one
-    const page = query.get('page' || 1)
+    const page = query.get('page') || 1;
     const searchQuery = query.get('searchQuery');
 
-    useEffect(() =>{
-        dispatch(getPosts())
-    },[dispatch,currentID])
+    // useEffect(() =>{
+    //     dispatch(getPosts())
+    // },[dispatch,currentID])
 
     const handleKeyPress = (e) => {
         //13 is Enter Key
@@ -83,7 +83,7 @@ const Home = () => {
                                     variant="contained" color="primary">Search</Button>
                         </AppBar>
                         <Form currentId={currentID} setCurrentId={setCurrentId} />
-                        <Paper>
+                        <Paper className={classes.pagination} elevation={6} >
                             <Pagination page={page}/>
                         </Paper>
                     </Grid>

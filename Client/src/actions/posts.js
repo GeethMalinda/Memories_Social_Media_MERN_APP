@@ -19,15 +19,18 @@ add this async dispatch function infornt of it and then insted of
 returning the funtion we have to dispatch it
  */
 
-export const getPosts = () => async (dispatch) => {
+export const getPosts = (page) => async (dispatch) => {
+    console.log('getpost called');
+    console.log(page);
     try {
-        const {data} = await api.fetchPosts();
+        const {data} = await api.fetchPosts(page);
+        console.log('data == > ,',data);
         dispatch({
             type:FETCH_ALL,
             payload:data
         })
     }catch (e) {
-        console.log(e.message);
+        console.log('error ==> ',e.message);
     }
 }
 
