@@ -3,13 +3,13 @@ import {Button, Paper, TextField, Typography} from '@mui/material';
 import useStyles from './Styles';
 import FileBase from 'react-file-base64';
 import {useDispatch,useSelector} from 'react-redux';
-import {createPost,updatePost} from '../../actions/posts';
+import {createPost, getPosts, updatePost} from '../../actions/posts';
 import { useHistory } from 'react-router-dom';
 
-const Form = ({currentId,setCurrentId}) => {
+const Form = ({page,currentId,setCurrentId}) => {
     const history = useHistory();
     const classes = useStyles();
-    const post = useSelector((state) => currentId ? state.posts.find((p)=>p._id === currentId):null);
+    const post = useSelector((state) => (currentId ? state.posts.posts.find((message) => message._id === currentId) : null));
     const dispatch  =  useDispatch();
     const user = JSON.parse(localStorage.getItem('profile'));
     const [postData , setPostData] = useState({
@@ -37,6 +37,7 @@ const Form = ({currentId,setCurrentId}) => {
         if (currentId === 0) {
             // dispatch(updatePost(currentId,postData))
             dispatch(createPost({ ...postData, name: user?.result?.name },history));
+            dispatch(getPosts(page))
             clear();
         } else {
             dispatch(updatePost(currentId, { ...postData, name: user?.result?.name }));
@@ -59,7 +60,7 @@ const Form = ({currentId,setCurrentId}) => {
         )
     }
     return(
-        <Paper  className={classes.paper}>
+        <Paper  className={classes.paper} elevation={6}>
             <form autoComplete="off"
                   noValidate className={`${classes.root} ${classes.form}`}
                   onSubmit={handleSubmit}>
