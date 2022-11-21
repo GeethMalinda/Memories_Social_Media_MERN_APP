@@ -22,6 +22,7 @@ const Home = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const query = useQuery();
+
     //read url and see if theare is a parameter called page if dont have the page we must be on the first one
     const page = query.get('page') || 1;
     const searchQuery = query.get('searchQuery');
@@ -56,7 +57,7 @@ const Home = () => {
     return(
         <Grow in>
             <Container maxWidth='xl'>
-                <Grid container  spacing={3} className={classes.gridContainer}>
+                <Grid container justify="space-between" alignItems="stretch" spacing={3} className={classes.gridContainer}>
                     <Grid item xs={12} sm={6} md={9}>
                         <Posts setCurrentId={setCurrentId} />
                     </Grid>
@@ -82,10 +83,13 @@ const Home = () => {
                                     // className={classes.searchButton}
                                     variant="contained" color="primary">Search</Button>
                         </AppBar>
-                        <Form currentId={currentID} setCurrentId={setCurrentId} />
-                        <Paper className={classes.pagination} elevation={6} >
-                            <Pagination page={page}/>
-                        </Paper>
+                        <Form  page={page} currentId={currentID} setCurrentId={setCurrentId} />
+                        {(!searchQuery && !tags.length) && (
+                            <Paper className={classes.pagination} elevation={6} >
+                                <Pagination page={page}/>
+                            </Paper>
+                        )}
+
                     </Grid>
                 </Grid>
             </Container>
