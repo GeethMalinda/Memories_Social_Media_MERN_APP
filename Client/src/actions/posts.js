@@ -1,5 +1,14 @@
 import * as api from '../api'
-import {CREATE, DELETE, FETCH_ALL, FETCH_BY_SEARCH, LIKE, UPDATE} from '../constants/actiontypes';
+import {
+    CREATE,
+    DELETE,
+    END_LOADING,
+    FETCH_ALL,
+    FETCH_BY_SEARCH,
+    LIKE,
+    START_LOADING,
+    UPDATE
+} from '../constants/actiontypes';
 
 /*
  Action Creators are funtions that returns funtions
@@ -20,15 +29,18 @@ returning the funtion we have to dispatch it
  */
 
 export const getPosts = (page) => async (dispatch) => {
-    console.log('getpost called');
-    console.log(page);
+
     try {
+        dispatch({type:START_LOADING})
+
         const {data} = await api.fetchPosts(page);
-        console.log('data == > ,',data);
         dispatch({
             type:FETCH_ALL,
             payload:data
         })
+
+        dispatch({type:END_LOADING})
+
     }catch (e) {
         console.log('error ==> ',e.message);
     }
@@ -37,37 +49,43 @@ export const getPosts = (page) => async (dispatch) => {
 export const getPostBySearch = (searchQuery) => async (dispatch) => {
 
     try{
+        dispatch({type:START_LOADING})
+
         const {data : {data}} = await api.fetchPostsBySearch(searchQuery);
         dispatch({
             type:FETCH_BY_SEARCH,
             payload:data
         })
+
+        dispatch({type:END_LOADING})
+
     }catch (e) {
         console.log(e);
     }
 }
 export const createPost = (post,navigate) => async (dispatch) => {
-    console.log("PostData ==>",post);
     try {
+        dispatch({type:START_LOADING})
 
         const {data} = await api.createPost(post);
         dispatch({
             type:CREATE,
             payload:data
         })
+
+        dispatch({type:END_LOADING})
         
     }catch (e) {
 
         console.log(e.response.status);
         if (e.response.status === 401) {
-            console.log('if');
             navigate('/')
         }
     }
 }
 
 export const updatePost = (id,post) => async (dispatch) => {
-    console.log("update ==>",id);
+
     try {
         let {data} = await api.updatePost(id,post);
         dispatch({

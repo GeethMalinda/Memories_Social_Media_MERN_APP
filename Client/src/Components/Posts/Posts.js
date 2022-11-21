@@ -6,11 +6,13 @@ import {CircularProgress, Grid} from '@mui/material';
 const Posts = ({setCurrentId}) => {
 
     /*combine reducer posts to state*/
-    const {posts}  = useSelector((state) => state.posts);//[] -> {posts:[]}
-    console.log('postsssss',posts);
+    const {posts,isLoading}  = useSelector((state) => state.posts);//[] -> {posts:[]}
+
     const classes = useStyles();
+
+    if (!posts.length && !isLoading) return 'No Posts'
     return(
-        !posts?.length ? <CircularProgress/>:
+        /*!posts?.length*/ isLoading? <CircularProgress/> : (
             <Grid className={classes.container} container alignItems="stretch" spacing={3}>
                 {
                     posts.map((post) => (
@@ -20,7 +22,7 @@ const Posts = ({setCurrentId}) => {
                     ))
                 }
             </Grid>
-    )
+    ))
 }
 
 export default Posts;
