@@ -1,8 +1,8 @@
 import React from 'react';
 import Post from './Post/Post';
-import useStyles from './Styles';
+import useStyles from './styles';
 import {useSelector} from 'react-redux';
-import {CircularProgress, Grid} from '@mui/material';
+import { Grid, CircularProgress } from '@material-ui/core';
 const Posts = ({setCurrentId}) => {
 
     /*combine reducer posts to state*/
