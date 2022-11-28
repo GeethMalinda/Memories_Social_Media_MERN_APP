@@ -4,7 +4,7 @@ import {
     DELETE,
     END_LOADING,
     FETCH_ALL,
-    FETCH_BY_SEARCH,
+    FETCH_BY_SEARCH, FETCH_POST,
     LIKE,
     START_LOADING,
     UPDATE
@@ -46,7 +46,23 @@ export const getPosts = (page) => async (dispatch) => {
     }
 }
 
-export const getPostBySearch = (searchQuery) => async (dispatch) => {
+export const getPost = (id) => async (dispatch) => {
+
+    try {
+        dispatch({type:START_LOADING})
+
+        const {data} = await api.fetchPost(id);
+        console.log('post ==>',data);
+        dispatch({ type: FETCH_POST, payload: { post: data } });
+        dispatch({type:END_LOADING})
+
+
+    }catch (e) {
+        console.log('error ==> ',e.message);
+    }
+}
+
+export const getPostsBySearch = (searchQuery) => async (dispatch) => {
 
     try{
         dispatch({type:START_LOADING})
@@ -54,7 +70,7 @@ export const getPostBySearch = (searchQuery) => async (dispatch) => {
         const {data : {data}} = await api.fetchPostsBySearch(searchQuery);
         dispatch({
             type:FETCH_BY_SEARCH,
-            payload:data
+            payload: { data }
         })
 
         dispatch({type:END_LOADING})
@@ -63,7 +79,7 @@ export const getPostBySearch = (searchQuery) => async (dispatch) => {
         console.log(e);
     }
 }
-export const createPost = (post,navigate) => async (dispatch) => {
+export const createPost = (post,history) => async (dispatch) => {
     try {
         dispatch({type:START_LOADING})
 
@@ -74,12 +90,12 @@ export const createPost = (post,navigate) => async (dispatch) => {
         })
 
         dispatch({type:END_LOADING})
-        
+        history.push(`/posts/${data._id}`);
     }catch (e) {
 
         console.log(e.response.status);
         if (e.response.status === 401) {
-            navigate('/')
+            history.push(`/`);
         }
     }
 }
