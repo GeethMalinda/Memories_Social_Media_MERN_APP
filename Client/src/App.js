@@ -1,4 +1,4 @@
-import { Container} from '@mui/material';
+import { Container } from '@material-ui/core';
 import Navbar from './Components/Navbar/NavBar';
 import { BrowserRouter, Switch, Route,Redirect } from 'react-router-dom';
 import Home from './Components/Home/Home';

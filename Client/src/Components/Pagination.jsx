@@ -11,7 +11,6 @@ const Paginate = ({page}) => {
     const {numberOfPages} = useSelector((state) => state.posts)
     //run it every time that the page changes
     useEffect(() => {
-        console.log('page ==> ',page);
         if (page) dispatch(getPosts(page))
     },[page])
 

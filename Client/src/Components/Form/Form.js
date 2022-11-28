@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Paper, TextField, Typography} from '@mui/material';
-import useStyles from './Styles';
+import useStyles from './styles';
 import FileBase from 'react-file-base64';
 import {useDispatch,useSelector} from 'react-redux';
 import {createPost, getPosts, updatePost} from '../../actions/posts';
@@ -37,7 +37,6 @@ const Form = ({page,currentId,setCurrentId}) => {
         if (currentId === 0) {
             // dispatch(updatePost(currentId,postData))
             dispatch(createPost({ ...postData, name: user?.result?.name },history));
-            dispatch(getPosts(page))
             clear();
         } else {
             dispatch(updatePost(currentId, { ...postData, name: user?.result?.name }));
